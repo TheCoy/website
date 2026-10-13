@@ -1,17 +1,37 @@
-import { Geist, Geist_Mono, Outfit, Oxanium } from "next/font/google"
+import type { Metadata } from "next"
+import { Geist_Mono, Hanken_Grotesk, Instrument_Serif } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { site } from "@/lib/site"
+import { cn } from "@/lib/utils"
 
-const oxaniumHeading = Oxanium({subsets:['latin'],variable:'--font-heading'});
+const fontHeading = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-heading",
+})
 
-const outfit = Outfit({subsets:['latin'],variable:'--font-sans'})
+const fontSans = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: `${site.name} — ${site.role}`,
+  description: site.description,
+  openGraph: {
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
+    type: "website",
+  },
+}
 
 export default function RootLayout({
   children,
@@ -22,7 +42,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", outfit.variable, oxaniumHeading.variable)}
+      className={cn(
+        "font-sans antialiased",
+        fontSans.variable,
+        fontHeading.variable,
+        fontMono.variable
+      )}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
